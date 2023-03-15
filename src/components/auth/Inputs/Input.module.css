@@ -1,0 +1,27 @@
+@import url('../../../Tema/Cores.modules.css');
+@import url('../../../Tema/Fontes.modules.css');
+
+.label {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--cinzaC9);
+  font-family: var(--poppins);
+  font-weight: var(--regular);
+  font-size: var(--mediumSize);
+}
+
+input {
+  position: relative;
+  border: none;
+  background: none;
+  width: 100%;
+  border-bottom: 3px solid var(--cinzaC4);
+  font-size: 1rem;
+  color: var(--cinzaC10);
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  outline: 0;
+  border-bottom: 3px solid var(--azulPrimario);
+}

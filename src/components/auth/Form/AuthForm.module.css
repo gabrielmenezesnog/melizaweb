@@ -1,0 +1,46 @@
+@import url('../../../Tema/TemaPadrao.css');
+.containerForm {
+  background: var(--cinzaC1);
+  height: auto;
+  width: 460px;
+  border-radius: 5px;
+  padding: 60px;
+  position: relative;
+  color: var(--cinzaC9);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.apresentacao {
+  margin-bottom: 40px;
+}
+
+.titulo {
+  color: var(--cinzaC11);
+  font-weight: var(--medium);
+  font-size: var(--tituloGrande);
+  font-family: var(--poppins);
+  margin-bottom: 12px;
+}
+
+.subtitulo {
+  color: var(--cinzaC9);
+  font-weight: var(--regular);
+  font-size: var(--medium);
+  font-family: var(--roboto);
+}
+
+.botaoToggleForm {
+  color: var(--azulPrimario);
+  font-weight: var(--regular);
+  font-size: var(--medium);
+  font-family: var(--roboto);
+  margin-bottom: 12px;
+  border: none;
+  background: none;
+  padding: 0px;
+  cursor: pointer;
+}

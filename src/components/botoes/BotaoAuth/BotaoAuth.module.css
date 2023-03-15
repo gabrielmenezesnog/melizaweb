@@ -1,0 +1,18 @@
+@import url('../../../Tema/Cores.modules.css');
+@import url('../../../Tema/Fontes.modules.css');
+
+.containerBotao {
+  background: var(--azulPrimario);
+  padding: 12px 20px;
+  border-radius: 5px;
+  border-width: 0px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.texto {
+  color: var(--cinzaC1);
+  font-family: var(--poppins);
+  font-weight: var(--medium);
+  font-size: var(--mediumSize);
+}

@@ -1,0 +1,24 @@
+@import url('../../Tema/TemaPadrao.css');
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-left: 8vw;
+}
+.containerLogo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: default;
+  justify-self: center;
+  margin-right: 20vw;
+}
+
+.logo {
+  font-size: var(--tituloGrande);
+  font-weight: var(--regular);
+  font-family: var(--poppins);
+}

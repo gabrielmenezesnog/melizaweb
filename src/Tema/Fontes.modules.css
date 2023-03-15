@@ -1,0 +1,14 @@
+:root {
+  --poppins: 'Poppins', sans-serif;
+  --roboto: 'Roboto', sans-serif;
+
+  --regular: 400;
+  --medium: 500;
+
+  --smallSize: 12px;
+  --mediumSize: 16px;
+  --bigSize: 20px;
+  --XLSize: 24px;
+  --XXLSize: 28px;
+  --tituloGrande: 32px;
+}
