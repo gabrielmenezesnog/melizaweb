@@ -26,7 +26,7 @@ class MelizaLogo extends React.Component<Props> {
         <path
           d="M11.7143 1L23.8571 19L36 1H26.2857L14.1429 19C14.1429 19 6.74208 8.02944 2 1H11.7143Z"
           stroke="#1E90FF"
-          stroke-width="2"
+          strokeWidth="2"
         />
       </svg>
     );

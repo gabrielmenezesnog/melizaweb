@@ -27,6 +27,7 @@ class InputTexto extends Component<Props> {
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          maxLength={60}
           {...inputProps}
         />
       </>

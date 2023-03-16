@@ -1,5 +1,4 @@
-@import url('../../../Tema/Cores.modules.css');
-@import url('../../../Tema/Fontes.modules.css');
+@import url('../../../Tema/TemaPadrao.css');
 
 .label {
   display: block;
@@ -12,16 +11,33 @@
 
 input {
   position: relative;
-  border: none;
-  background: none;
   width: 100%;
+  background: none;
+  border: none;
   border-bottom: 3px solid var(--cinzaC4);
-  font-size: 1rem;
   color: var(--cinzaC10);
+  font-size: 1rem;
+  padding-bottom: 4px;
   transition: border-color 0.3s;
 }
 
 input:focus {
   outline: 0;
   border-bottom: 3px solid var(--azulPrimario);
+}
+
+.containerSenha {
+  display: flex;
+  position: relative;
+}
+
+.button {
+  border: none;
+  background: none;
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  background: var(--cinzaC1);
+  z-index: 999;
+  width: 32px;
 }

@@ -1,5 +1,14 @@
 @import url('../../Tema/TemaPadrao.css');
 
+.background {
+  background: var(--backgroundB1);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  z-index: 0;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -15,10 +24,12 @@
   cursor: default;
   justify-self: center;
   margin-right: 20vw;
+  z-index: 999;
 }
 
 .logo {
   font-size: var(--tituloGrande);
   font-weight: var(--regular);
   font-family: var(--poppins);
+  color: var(--cinzaC1);
 }

@@ -14,6 +14,8 @@ class TelaDeAutenticacao extends Component {
   render() {
     return (
       <>
+        <div className={styles.background} />
+
         <section aria-label="Entre ou crie uma conta!" className={styles.grid}>
           <div className={styles.containerLogo}>
             <MelizaLogo />
