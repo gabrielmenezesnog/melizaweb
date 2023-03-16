@@ -11,6 +11,7 @@ interface State {
   email: string;
   senha: string;
   error: boolean;
+  formLogin: boolean;
 }
 
 class AuthForm extends Component<Props, State> {
@@ -20,10 +21,18 @@ class AuthForm extends Component<Props, State> {
       email: '',
       senha: '',
       error: false,
+      formLogin: true,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
+  }
+
+  toggleForm() {
+    this.setState((prevState) => ({
+      formLogin: !prevState.formLogin,
+    }));
   }
 
   handleSubmit(event: React.FormEvent) {
@@ -45,50 +54,104 @@ class AuthForm extends Component<Props, State> {
   };
 
   render() {
+    const { formLogin } = this.state;
     return (
       <>
-        <div className={styles.containerForm}>
-          <div className={styles.apresentacao}>
-            <h1 className={styles.titulo}>Entrar</h1>
-            <p className={styles.subtitulo}>
-              novo usuário?{' '}
-              <button
-                className={styles.botaoToggleForm}
-                onClick={() => console.log('clicou para mudar o form')}
-              >
-                Crie uma conta
-              </button>
-            </p>
+        {formLogin ? (
+          <div className={formLogin ? styles.fadeIn : styles.fadeOut}>
+            <div className={styles.containerForm}>
+              <div className={styles.apresentacao}>
+                <h1 className={styles.titulo}>Entrar</h1>
+                <p className={styles.subtitulo}>
+                  novo usuário?{' '}
+                  <button
+                    className={styles.botaoToggleForm}
+                    onClick={this.toggleForm}
+                  >
+                    Crie uma conta
+                  </button>
+                </p>
+              </div>
+              {formLogin ? (
+                <form onSubmit={this.handleSubmit}>
+                  <div>
+                    <InputTexto
+                      id="email"
+                      label="email"
+                      value={this.state.email}
+                      onBlur={this.handleBlur}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+
+                  <div>
+                    <InputSenha
+                      id="senha"
+                      label="senha"
+                      value={this.state.senha}
+                      onBlur={this.handleBlur}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+
+                  <div>
+                    <BotaoPrincipal
+                      label="continuar"
+                      onClick={() => console.log('clicou')}
+                    />
+                  </div>
+                </form>
+              ) : ''}
+            </div>
           </div>
-          <form onSubmit={this.handleSubmit}>
-            <div>
-              <InputTexto
-                id="email"
-                label="email"
-                value={this.state.email}
-                onBlur={this.handleBlur}
-                onChange={this.handleChange}
-              />
-            </div>
+        ) : (
+          <div className={formLogin ? styles.fadeIn : styles.fadeOut}>
+            <div className={styles.containerForm}>
+              <div className={styles.apresentacao}>
+                <h1 className={styles.titulo}>Faça parte</h1>
+                <p className={styles.subtitulo}>
+                  possui uma conta?{' '}
+                  <button
+                    className={styles.botaoToggleForm}
+                    onClick={this.toggleForm}
+                  >
+                    Faça login
+                  </button>
+                </p>
+              </div>
+              {formLogin ? (
+                <form onSubmit={this.handleSubmit}>
+                  <div>
+                    <InputTexto
+                      id="email"
+                      label="email"
+                      value={this.state.email}
+                      onBlur={this.handleBlur}
+                      onChange={this.handleChange}
+                    />
+                  </div>
 
-            <div>
-              <InputSenha
-                id="senha"
-                label="senha"
-                value={this.state.senha}
-                onBlur={this.handleBlur}
-                onChange={this.handleChange}
-              />
-            </div>
+                  <div>
+                    <InputSenha
+                      id="senha"
+                      label="senha"
+                      value={this.state.senha}
+                      onBlur={this.handleBlur}
+                      onChange={this.handleChange}
+                    />
+                  </div>
 
-            <div>
-              <BotaoPrincipal
-                label="continuar"
-                onClick={() => console.log('clicou')}
-              />
+                  <div>
+                    <BotaoPrincipal
+                      label="continuar"
+                      onClick={() => console.log('clicou')}
+                    />
+                  </div>
+                </form>
+              ) : ''}
             </div>
-          </form>
-        </div>
+          </div>
+        )}
       </>
     );
   }

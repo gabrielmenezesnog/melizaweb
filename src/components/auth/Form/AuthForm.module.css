@@ -44,3 +44,33 @@ form {
   padding: 0px;
   cursor: pointer;
 }
+
+@keyframes fadeInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-5%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeInFromLeft 0.3s ease-out;
+}
+
+@keyframes fadeOutToRight {
+  from {
+    opacity: 0;
+    transform: translateX(5%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fadeOut {
+  animation: fadeOutToRight 0.3s ease-out;
+}
