@@ -1,80 +1,83 @@
-import React, { Component } from 'react';
-
-interface InputProps {
-  type: 'email' | 'password';
-  errorMessage?: string;
+export interface FormValues {
+  nome?: string;
+  email?: string;
+  senha?: string;
+  repetirSenha?: string;
 }
 
-interface InputState {
-  value: string;
-  error: string | null;
+export interface FormErrors {
+  nome?: string;
+  email?: string;
+  senha?: string;
+  repetirSenha?: string;
+  [key: string]: string | undefined;
 }
 
-const types = {
-  email: {
-    regex:
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    message: 'Email inválido',
-  },
-  password: {
-    regex: /^.{8,}$/,
-    message: 'Senha inválida',
-  },
+export interface ValidationResult {
+  isValid: boolean;
+  errors: FormErrors;
+}
+
+const validateForm = (values: FormValues): ValidationResult => {
+  const errors: FormErrors = {
+    nome: '',
+    email: '',
+    senha: '',
+    repetirSenha: '',
+  };
+  let isValid = true;
+
+  if (!values.nome?.trim()) {
+    errors.nome = 'insira seu nome';
+    isValid = false;
+  } else if (
+    !/^[a-zA-ZÀ-ÿ]+(([',. -][a-zA-ZÀ-ÿ ])?[a-zA-ZÀ-ÿ]*)*$/i.test(values.nome)
+  ) {
+    errors.nome = 'nome inválido';
+    isValid = false;
+  }
+
+  if (!values.email?.trim()) {
+    errors.email = 'insira um email';
+    isValid = false;
+  } else if (
+    !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/i.test(values.email)
+  ) {
+    errors.email = 'email inválido';
+    isValid = false;
+  }
+
+  if (!values.senha?.trim()) {
+    errors.senha = 'insira uma senha';
+    isValid = false;
+  } else if (values.senha.length < 8) {
+    errors.senha = 'a senha deve conter ao menos 8 caracteres';
+    isValid = false;
+  } else if (
+    values.senha &&
+    values.repetirSenha &&
+    values.senha !== values.repetirSenha
+  ) {
+    errors.repetirSenha = 'as senhas não correspondem';
+    isValid = false;
+  }
+
+  // console.log('senha: ', values.senha);
+  // console.log('repetir senha: ', values.repetirSenha);
+
+  if (!values.repetirSenha?.trim()) {
+    errors.repetirSenha = 'confirme sua senha';
+    isValid = false;
+  } else if (
+    values.senha &&
+    values.repetirSenha &&
+    values.senha !== values.repetirSenha
+  ) {
+    errors.repetirSenha = 'as senhas não correspondem';
+    isValid = false;
+  }
+
+  return { isValid, errors };
 };
 
-class ValidarInput extends Component<InputProps, InputState> {
-  constructor(props: InputProps) {
-    super(props);
-
-    this.state = {
-      value: '',
-      error: null,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-  }
-
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value;
-
-    this.setState({
-      value,
-      error: null,
-    });
-  }
-
-  handleBlur() {
-    const { type, errorMessage } = this.props;
-    const { value } = this.state;
-
-    if (value.length === 0) {
-      this.setState({
-        error: 'Preencha um valor',
-      });
-    } else if (types[type] && !types[type].regex.test(value)) {
-      this.setState({
-        error: errorMessage || types[type].message,
-      });
-    }
-  }
-
-  render() {
-    const { type } = this.props;
-    const { value, error } = this.state;
-
-    return (
-      <>
-        <input
-          type={type}
-          value={value}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-        />
-        {error && <span>{error}</span>}
-      </>
-    );
-  }
-}
-
-export default ValidarInput;
+export default validateForm;

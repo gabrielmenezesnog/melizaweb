@@ -6,5 +6,7 @@
   --cinzaC10: #363b47;
   --cinzaC11: #242833;
 
-  --backgroundB1: linear-gradient(285.1deg, #242833 0%, #0B0C12 100%);
+  --vermelhoErro: #ff414c;
+
+  --backgroundB1: linear-gradient(285.1deg, #242833 0%, #0b0c12 100%);
 }

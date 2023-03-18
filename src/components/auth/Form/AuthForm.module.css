@@ -45,6 +45,14 @@ form {
   cursor: pointer;
 }
 
+.mensagemErro {
+  font-family: var(--roboto);
+  font-size: var(--mediumSize);
+  font-weight: var(--regular);
+  color: var(--vermelhoErro);
+  margin-top: 8px;
+}
+
 @keyframes fadeInFromLeft {
   from {
     opacity: 0;
