@@ -8,5 +8,5 @@
 
   --vermelhoErro: #ff414c;
 
-  --backgroundB1: linear-gradient(285.1deg, #242833 0%, #0b0c12 100%);
+  --backgroundB1: url('../../public/visual/img/background.jpg');
 }

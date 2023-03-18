@@ -224,6 +224,7 @@ class AuthForm extends Component<Props, State> {
 
   render() {
     const { formLogin } = this.state;
+
     return (
       <>
         {formLogin ? (
@@ -250,11 +251,11 @@ class AuthForm extends Component<Props, State> {
                     onBlur={this.handleBlur}
                     onChange={this.handleChange}
                   />
-                  <p className={styles.mensagemErro}>
-                    {this.state.mensagensErros.email !== null
-                      ? this.state.mensagensErros.email
-                      : null}
-                  </p>
+                  {this.state.mensagensErros.email !== null ? (
+                    <p className={styles.mensagemErro}>
+                      {this.state.mensagensErros.email}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
@@ -265,11 +266,11 @@ class AuthForm extends Component<Props, State> {
                     onBlur={this.handleBlur}
                     onChange={this.handleChange}
                   />
-                  <p className={styles.mensagemErro}>
-                    {this.state.mensagensErros.senha !== null
-                      ? this.state.mensagensErros.senha
-                      : null}
-                  </p>
+                  {this.state.mensagensErros.senha !== null ? (
+                    <p className={styles.mensagemErro}>
+                      {this.state.mensagensErros.senha}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
@@ -306,11 +307,11 @@ class AuthForm extends Component<Props, State> {
                     onBlur={this.handleBlur}
                     onChange={this.handleChange}
                   />
-                  <p className={styles.mensagemErro}>
-                    {this.state.mensagensErros.nome !== null
-                      ? this.state.mensagensErros.nome
-                      : null}
-                  </p>
+                  {this.state.mensagensErros.nome !== null ? (
+                    <p className={styles.mensagemErro}>
+                      {this.state.mensagensErros.nome}
+                    </p>
+                  ) : null}
                 </div>
                 <div>
                   <InputTexto
@@ -321,11 +322,11 @@ class AuthForm extends Component<Props, State> {
                     onBlur={this.handleBlur}
                     onChange={this.handleChange}
                   />
-                  <p className={styles.mensagemErro}>
-                    {this.state.mensagensErros.email !== null
-                      ? this.state.mensagensErros.email
-                      : null}
-                  </p>
+                  {this.state.mensagensErros.email !== null ? (
+                    <p className={styles.mensagemErro}>
+                      {this.state.mensagensErros.email}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
@@ -337,11 +338,11 @@ class AuthForm extends Component<Props, State> {
                     onBlur={this.handleBlur}
                     onChange={this.handleChange}
                   />
-                  <p className={styles.mensagemErro}>
-                    {this.state.mensagensErros.senha !== null
-                      ? this.state.mensagensErros.senha
-                      : null}
-                  </p>
+                  {this.state.mensagensErros.senha !== null ? (
+                    <p className={styles.mensagemErro}>
+                      {this.state.mensagensErros.senha}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
@@ -353,11 +354,11 @@ class AuthForm extends Component<Props, State> {
                     onBlur={this.handleBlur}
                     onChange={this.handleChange}
                   />
-                  <p className={styles.mensagemErro}>
-                    {this.state.mensagensErros.repetirSenha !== null
-                      ? this.state.mensagensErros.repetirSenha
-                      : null}
-                  </p>
+                  {this.state.mensagensErros.repetirSenha !== null ? (
+                    <p className={styles.mensagemErro}>
+                      {this.state.mensagensErros.repetirSenha}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
