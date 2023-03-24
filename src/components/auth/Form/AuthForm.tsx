@@ -158,7 +158,10 @@ function AuthForm(props: Props) {
       errors.errors.senha?.length === 0
     ) {
       setError(false);
-      console.log('enviar form');
+      if (error === true) {
+        // lógica para enviar o formulário
+        console.log('enviar form');
+      }
       // navigate('/inicio');
     } else {
       if (errors.errors.email && errors.errors.senha) {
@@ -174,6 +177,7 @@ function AuthForm(props: Props) {
 
   const handleCadastro = () => {
     const values = { nome, email, senha, repetirSenha };
+
     const errors = validateForm(values);
 
     if (
@@ -183,7 +187,10 @@ function AuthForm(props: Props) {
       errors.errors.repetirSenha?.length === 0
     ) {
       setError(false);
-      console.log('enviar form');
+      if (error === true) {
+        // lógica para enviar o formulário
+        console.log('enviar form');
+      }
     } else {
       if (
         errors.errors.email &&
