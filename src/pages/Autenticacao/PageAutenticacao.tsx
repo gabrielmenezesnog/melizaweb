@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import AuthForm from '../../components/auth/Form/AuthForm';
 import MelizaLogo from '../../components/svg/MelizaLogo';
 
-import styles from './TelaDeAutenticacao.module.css';
+import styles from './PageAutenticacao.module.css';
 
 interface Props {}
 
-class TelaDeAutenticacao extends Component {
+class PageAutenticacao extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {};
   }
+
+  componentDidMount() {
+    document.title = 'Meliza';
+  }
+
   render() {
     return (
       <>
@@ -27,4 +32,4 @@ class TelaDeAutenticacao extends Component {
   }
 }
 
-export default TelaDeAutenticacao;
+export default PageAutenticacao;

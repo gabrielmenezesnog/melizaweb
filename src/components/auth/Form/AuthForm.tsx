@@ -1,156 +1,154 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+
+// react router
+// documentação useNavigate - https://reactrouter.com/en/main/hooks/use-navigate
+// documentação redirect - https://reactrouter.com/en/main/fetch/redirect
+// import { redirect } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+
+// componentes
 import InputTexto from '../Inputs/InputTexto';
 import InputSenha from '../Inputs/InputSenha';
 import BotaoPrincipal from '../../botoes/BotaoAuth/BotaoAuth';
-
-import styles from './AuthForm.module.css';
 import validateForm from '../../../services/ValidarCampos';
+
+// estilos
+import styles from './AuthForm.module.css';
 
 interface Props {}
 
-interface State {
-  nome: string;
-  email: string;
-  senha: string;
-  repetirSenha: string;
-  error: boolean;
-  formLogin: boolean;
-  mensagensErros: {
-    nome?: string | null;
-    email?: string | null;
-    senha?: string | null;
-    repetirSenha?: string | null;
-  };
-}
+function AuthForm(props: Props) {
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [repetirSenha, setRepetirSenha] = useState('');
+  const [error, setError] = useState(true);
+  const [formLogin, setFormLogin] = useState(true);
+  const [mensagensErros, setMensagensErros] = useState({
+    nome: '',
+    email: '',
+    senha: '',
+    repetirSenha: '',
+  });
 
-class AuthForm extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      nome: '',
-      email: '',
-      senha: '',
-      repetirSenha: '',
-      error: true,
-      formLogin: true,
-      mensagensErros: {
-        nome: null,
-        email: null,
-        senha: null,
-        repetirSenha: null,
-      },
-    };
+  // const navigate = useNavigate();
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.toggleForm = this.toggleForm.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleCadastro = this.handleCadastro.bind(this);
-  }
-
-  handleSubmit(event: React.FormEvent) {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-  }
+  };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
     if (id === 'nome') {
-      this.setState({ nome: value });
+      setNome(value);
     }
     if (id === 'email') {
-      this.setState({ email: value });
+      setEmail(value);
     }
     if (id === 'senha') {
-      this.setState({ senha: value });
+      setSenha(value);
     }
 
     if (id === 'repetirSenha') {
-      this.setState({ repetirSenha: value });
+      setRepetirSenha(value);
     }
   };
 
-  handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
 
     if (id === 'nome') {
       const errors = validateForm({ nome: value });
       if (errors.errors.nome) {
-        this.setState({
-          mensagensErros: {
-            ...this.state.mensagensErros,
-            nome: errors.errors.nome,
-          },
-          error: true,
+        setMensagensErros({
+          ...mensagensErros,
+          nome: errors.errors.nome,
         });
+        setError(true);
       } else {
-        this.setState({
-          mensagensErros: { ...this.state.mensagensErros, nome: null },
-          error: false,
+        setMensagensErros({
+          ...mensagensErros,
+          nome: '',
         });
+        setError(false);
       }
     }
 
     if (id === 'email') {
       const errors = validateForm({ email: value });
       if (errors.errors.email) {
-        this.setState({
-          mensagensErros: {
-            ...this.state.mensagensErros,
-            email: errors.errors.email,
-          },
-          error: true,
+        setMensagensErros({
+          ...mensagensErros,
+          email: errors.errors.email,
         });
+        setError(true);
       } else {
-        this.setState({
-          mensagensErros: { ...this.state.mensagensErros, email: null },
-          error: false,
+        setMensagensErros({
+          ...mensagensErros,
+          email: '',
         });
+        setError(false);
       }
     }
 
     if (id === 'senha') {
+      // ao verificar a senha, deve verificar também a confirmação da senha
       const errors = validateForm({
         senha: value,
-        repetirSenha: this.state.repetirSenha,
+        repetirSenha: repetirSenha,
       });
 
       if (Object.keys(errors).length === 0) {
-        this.setState({ error: false });
+        setError(false);
       } else {
-        this.setState({
-          mensagensErros: {
-            senha: errors.errors.senha,
-            repetirSenha: this.state.repetirSenha
+        if (repetirSenha.length !== 0) {
+          setMensagensErros({
+            ...mensagensErros,
+            senha: errors.errors.senha ? errors.errors.senha : '',
+            repetirSenha: errors.errors.repetirSenha
               ? errors.errors.repetirSenha
-              : null,
-          },
-        });
-        this.setState({ error: true });
+              : '',
+          });
+        } else {
+          setMensagensErros({
+            ...mensagensErros,
+            senha: errors.errors.senha ? errors.errors.senha : '',
+          });
+        }
+        setError(true);
       }
     }
 
     if (id === 'repetirSenha') {
-      const { senha, repetirSenha } = this.state;
       const values = { senha, repetirSenha };
 
       const errors = validateForm(values);
 
       if (Object.keys(errors).length === 0) {
-        this.setState({ error: false });
+        setError(false);
       } else {
-        this.setState({
-          mensagensErros: {
-            senha: errors.errors.senha,
-            repetirSenha: errors.errors.repetirSenha,
-          },
-        });
-        this.setState({ error: true });
+        if (senha.length !== 0) {
+          setMensagensErros({
+            ...mensagensErros,
+            senha: errors.errors.senha ? errors.errors.senha : '',
+            repetirSenha: errors.errors.repetirSenha
+              ? errors.errors.repetirSenha
+              : '',
+          });
+        } else {
+          setMensagensErros({
+            ...mensagensErros,
+            repetirSenha: errors.errors.repetirSenha
+              ? errors.errors.repetirSenha
+              : '',
+          });
+        }
+        setError(true);
       }
     }
   };
 
-  handleLogin() {
-    const { email, senha } = this.state;
+  const handleLogin = () => {
     const values = { email, senha };
 
     const errors = validateForm(values);
@@ -159,25 +157,23 @@ class AuthForm extends Component<Props, State> {
       errors.errors.email?.length === 0 &&
       errors.errors.senha?.length === 0
     ) {
-      this.setState({ error: false }, () => {
-        console.log(this.state.error);
-        console.log('enviar form');
-      });
+      setError(false);
+      console.log('enviar form');
+      // navigate('/inicio');
     } else {
-      this.setState({
-        mensagensErros: {
+      if (errors.errors.email && errors.errors.senha) {
+        setMensagensErros({
+          ...mensagensErros,
           email: errors.errors.email,
           senha: errors.errors.senha,
-        },
-      });
-      this.setState({ error: true });
+        });
+      }
+      setError(true);
     }
-  }
+  };
 
-  handleCadastro() {
-    const { nome, email, senha, repetirSenha } = this.state;
+  const handleCadastro = () => {
     const values = { nome, email, senha, repetirSenha };
-
     const errors = validateForm(values);
 
     if (
@@ -186,194 +182,170 @@ class AuthForm extends Component<Props, State> {
       errors.errors.senha?.length === 0 &&
       errors.errors.repetirSenha?.length === 0
     ) {
-      this.setState({ error: false }, () => {
-        console.log(this.state.error);
-        console.log('enviar form');
-      });
+      setError(false);
+      console.log('enviar form');
     } else {
-      this.setState({
-        mensagensErros: {
+      if (
+        errors.errors.email &&
+        errors.errors.senha &&
+        errors.errors.nome &&
+        errors.errors.repetirSenha
+      ) {
+        setMensagensErros({
           nome: errors.errors.nome,
           email: errors.errors.email,
           senha: errors.errors.senha,
           repetirSenha: errors.errors.repetirSenha,
-        },
-      });
-      this.setState({ error: true });
+        });
+      }
+      setError(true);
     }
-  }
+  };
 
-  toggleForm() {
-    this.setState((prevState) => ({
-      formLogin: !prevState.formLogin,
-    }));
+  const toggleForm = () => {
+    setFormLogin(!formLogin);
 
     // reinicia todos os erros ao trocar de formulário
-    this.setState({
-      mensagensErros: {
-        nome: '',
-        email: '',
-        senha: '',
-        repetirSenha: '',
-      },
+    setMensagensErros({
+      nome: '',
+      email: '',
+      senha: '',
+      repetirSenha: '',
     });
 
     // reinicia todos os campos ao trocar de formulário
-    this.setState({ nome: '', email: '', senha: '', repetirSenha: '' });
-  }
+    setNome('');
+    setEmail('');
+    setSenha('');
+    setRepetirSenha('');
+  };
 
-  render() {
-    const { formLogin } = this.state;
-
-    return (
-      <>
-        {formLogin ? (
-          <div className={formLogin ? styles.fadeIn : styles.fadeOut}>
-            <div className={styles.containerForm}>
-              <div className={styles.apresentacao}>
-                <h1 className={styles.titulo}>Entrar</h1>
-                <p className={styles.subtitulo}>
-                  novo usuário?{' '}
-                  <button
-                    className={styles.botaoToggleForm}
-                    onClick={this.toggleForm}
-                  >
-                    Crie uma conta
-                  </button>
-                </p>
-              </div>
-              <form onSubmit={this.handleSubmit}>
-                <div>
-                  <InputTexto
-                    id="email"
-                    label="email"
-                    value={this.state.email}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                  />
-                  {this.state.mensagensErros.email !== null ? (
-                    <p className={styles.mensagemErro}>
-                      {this.state.mensagensErros.email}
-                    </p>
-                  ) : null}
-                </div>
-
-                <div>
-                  <InputSenha
-                    id="senha"
-                    label="senha"
-                    value={this.state.senha}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                  />
-                  {this.state.mensagensErros.senha !== null ? (
-                    <p className={styles.mensagemErro}>
-                      {this.state.mensagensErros.senha}
-                    </p>
-                  ) : null}
-                </div>
-
-                <div>
-                  <BotaoPrincipal
-                    label="continuar"
-                    onClick={this.handleLogin}
-                  />
-                </div>
-              </form>
+  return (
+    <>
+      {formLogin ? (
+        <div className={formLogin ? styles.fadeIn : styles.fadeOut}>
+          <div className={styles.containerForm}>
+            <div className={styles.apresentacao}>
+              <h1 className={styles.titulo}>Entrar</h1>
+              <p className={styles.subtitulo}>
+                novo usuário?{' '}
+                <button className={styles.botaoToggleForm} onClick={toggleForm}>
+                  Crie uma conta
+                </button>
+              </p>
             </div>
-          </div>
-        ) : (
-          <div className={formLogin ? styles.fadeIn : styles.fadeOut}>
-            <div className={styles.containerForm}>
-              <div className={styles.apresentacao}>
-                <h1 className={styles.titulo}>Faça parte</h1>
-                <p className={styles.subtitulo}>
-                  possui uma conta?{' '}
-                  <button
-                    className={styles.botaoToggleForm}
-                    onClick={this.toggleForm}
-                  >
-                    Faça login
-                  </button>
-                </p>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <InputTexto
+                  id="email"
+                  label="email"
+                  value={email}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {mensagensErros.email !== null ? (
+                  <p className={styles.mensagemErro}>{mensagensErros.email}</p>
+                ) : null}
               </div>
-              <form onSubmit={this.handleSubmit}>
-                <div>
-                  <InputTexto
-                    id="nome"
-                    label="nome"
-                    placeholder="nome e sobrenome"
-                    value={this.state.nome}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                  />
-                  {this.state.mensagensErros.nome !== null ? (
-                    <p className={styles.mensagemErro}>
-                      {this.state.mensagensErros.nome}
-                    </p>
-                  ) : null}
-                </div>
-                <div>
-                  <InputTexto
-                    id="email"
-                    label="email"
-                    placeholder="exemplo@email.com"
-                    value={this.state.email}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                  />
-                  {this.state.mensagensErros.email !== null ? (
-                    <p className={styles.mensagemErro}>
-                      {this.state.mensagensErros.email}
-                    </p>
-                  ) : null}
-                </div>
 
-                <div>
-                  <InputSenha
-                    id="senha"
-                    label="senha"
-                    placeholder="mínimo de 8 caracteres"
-                    value={this.state.senha}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                  />
-                  {this.state.mensagensErros.senha !== null ? (
-                    <p className={styles.mensagemErro}>
-                      {this.state.mensagensErros.senha}
-                    </p>
-                  ) : null}
-                </div>
+              <div>
+                <InputSenha
+                  id="senha"
+                  label="senha"
+                  value={senha}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {mensagensErros.senha !== null ? (
+                  <p className={styles.mensagemErro}>{mensagensErros.senha}</p>
+                ) : null}
+              </div>
 
-                <div>
-                  <InputSenha
-                    id="repetirSenha"
-                    label="repetir senha"
-                    placeholder="repita a senha"
-                    value={this.state.repetirSenha}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                  />
-                  {this.state.mensagensErros.repetirSenha !== null ? (
-                    <p className={styles.mensagemErro}>
-                      {this.state.mensagensErros.repetirSenha}
-                    </p>
-                  ) : null}
-                </div>
-
-                <div>
-                  <BotaoPrincipal
-                    label="continuar"
-                    onClick={this.handleCadastro}
-                  />
-                </div>
-              </form>
-            </div>
+              <div>
+                <BotaoPrincipal label="continuar" onClick={handleLogin} />
+              </div>
+            </form>
           </div>
-        )}
-      </>
-    );
-  }
+        </div>
+      ) : (
+        <div className={formLogin ? styles.fadeIn : styles.fadeOut}>
+          <div className={styles.containerForm}>
+            <div className={styles.apresentacao}>
+              <h1 className={styles.titulo}>Faça parte</h1>
+              <p className={styles.subtitulo}>
+                possui uma conta?{' '}
+                <button className={styles.botaoToggleForm} onClick={toggleForm}>
+                  Faça login
+                </button>
+              </p>
+            </div>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <InputTexto
+                  id="nome"
+                  label="nome"
+                  placeholder="nome e sobrenome"
+                  value={nome}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {mensagensErros.nome !== null ? (
+                  <p className={styles.mensagemErro}>{mensagensErros.nome}</p>
+                ) : null}
+              </div>
+              <div>
+                <InputTexto
+                  id="email"
+                  label="email"
+                  placeholder="exemplo@email.com"
+                  value={email}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {mensagensErros.email !== null ? (
+                  <p className={styles.mensagemErro}>{mensagensErros.email}</p>
+                ) : null}
+              </div>
+
+              <div>
+                <InputSenha
+                  id="senha"
+                  label="senha"
+                  placeholder="mínimo de 8 caracteres"
+                  value={senha}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {mensagensErros.senha !== null ? (
+                  <p className={styles.mensagemErro}>{mensagensErros.senha}</p>
+                ) : null}
+              </div>
+
+              <div>
+                <InputSenha
+                  id="repetirSenha"
+                  label="repetir senha"
+                  placeholder="repita a senha"
+                  value={repetirSenha}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {mensagensErros.repetirSenha !== null ? (
+                  <p className={styles.mensagemErro}>
+                    {mensagensErros.repetirSenha}
+                  </p>
+                ) : null}
+              </div>
+
+              <div>
+                <BotaoPrincipal label="continuar" onClick={handleCadastro} />
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
 
 export default AuthForm;
