@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // react router
 // documentação useNavigate - https://reactrouter.com/en/main/hooks/use-navigate
 // documentação redirect - https://reactrouter.com/en/main/fetch/redirect
 // import { redirect } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import * as userActions from '../../../store/reducers/usuario/UserActions';
 
 // componentes
 import InputTexto from '../Inputs/InputTexto';
@@ -14,10 +18,12 @@ import validateForm from '../../../services/ValidarCampos';
 
 // estilos
 import styles from './AuthForm.module.css';
+import { RootState } from '../../../store/RootReducer';
 
 interface Props {}
 
 function AuthForm(props: Props) {
+  // estados
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -31,7 +37,23 @@ function AuthForm(props: Props) {
     repetirSenha: '',
   });
 
-  // const navigate = useNavigate();
+  // Redux
+  const dispatch = useDispatch();
+  const { user, loggedIn } = useSelector((state: RootState) => state.user);
+
+  console.log('Logado: ', loggedIn);
+
+  // Router
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loggedIn === true) {
+      console.log('logado');
+      navigate('/inicio');
+    }
+  }, [loggedIn, navigate]);
+
+  // Funções referentes ao formulário
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -148,7 +170,7 @@ function AuthForm(props: Props) {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const values = { email, senha };
 
     const errors = validateForm(values);
@@ -161,8 +183,8 @@ function AuthForm(props: Props) {
       if (error === true) {
         // lógica para enviar o formulário
         console.log('enviar form');
+        dispatch(userActions.UserActions.loginUser(email, senha));
       }
-      // navigate('/inicio');
     } else {
       if (errors.errors.email && errors.errors.senha) {
         setMensagensErros({
