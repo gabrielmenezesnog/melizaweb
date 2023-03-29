@@ -3,6 +3,7 @@ import { userActionTypes } from '../../reducers/usuario/UserActionTypes';
 import { loginRequest } from '../../../services/api/auth/Login';
 
 import { UserActions } from '../../reducers/usuario/UserActions';
+import { PersistirDados } from '../../../services/persistirDados/PersistirDados';
 
 // yield é usado para pausar a execução de uma função geradora
 // enquanto aguarda a conclusão de uma operação assíncrona, e
@@ -31,13 +32,17 @@ function* loginSaga(action: {
     console.log('resposta do login: ', response);
     yield put(UserActions.successfulLogin({ user: response, loggedIn: true }));
 
-    const userData = {
-      userId: response.id,
-      userName: response.name,
-      userEmail: response.email,
-      userToken: response.accessToken,
-    };
-    localStorage.setItem('userData', JSON.stringify(userData));
+    // Salvando dados do usuário no navegador
+    PersistirDados.localStorage({
+      user: {
+        id: response.id,
+        name: response.name,
+        email: response.email,
+        accessToken: response.accessToken,
+        tokenType: response.tokenType,
+      },
+      loggedIn: true,
+    });
   } catch (error: any) {
     yield put(
       UserActions.signInFail({

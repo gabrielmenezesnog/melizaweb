@@ -7,7 +7,7 @@ export interface User {
   id: string | number;
   name: string;
   email: string;
-  password: string;
-  tokenType: string;
-  accessToken: string;
+  password?: string;
+  tokenType?: string;
+  accessToken?: string;
 }

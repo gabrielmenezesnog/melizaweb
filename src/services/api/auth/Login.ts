@@ -1,4 +1,3 @@
-// Interface usuário
 import { api } from '../Axios';
 
 export async function loginRequest(email: string, password: string) {
